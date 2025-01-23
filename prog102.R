@@ -1,33 +1,87 @@
 library(marinecs100b)
 
-# Extracting data ---------------------------------------------------------
 
-# How did you extract the temperature and exposure from the hottest day?
+# Writing a utility function ----------------------------------------------
+
+# P1: How did you extract the temperature and exposure from the hottest day?
 # Copy-paste the code here.
 
-# If you want to change the site and date, what variables would need to change?
+# hotday_start <- as.POSIXct("2018-07-03 00:00:00", tz = "Etc/GMT+8")
+# hotday_end <- as.POSIXct("2018-07-04 00:00:00", tz = "Etc/GMT+8")
+# hotday_idx <- kefj_site == hottest_site &
+#   kefj_datetime >= hotday_start &
+#   kefj_datetime <= hotday_end
+# hotday_datetime <- kefj_datetime[hotday_idx]
+# hotday_temperature <- kefj_temperature[hotday_idx]
+# hotday_exposure <- kefj_exposure[hotday_idx]
 
-# What would you pick for the temperature extraction function name and parameter
-# names?
+# P2: Fill in the blanks below to write the Alaskan datetime utility function.
+make_datetime <- function(day) {
+  day <- as.POSIXct(day, tz = "Etc/GMT+8")
+  return(day)
+}
+# Extracting data ---------------------------------------------------------
 
+# P3: Make a copy of your code from P1 and edit it to plot the temperature and
+# exposure for "Aialik" on 2012-06-01
+
+# P4: Make a copy of your code from P3 and edit it to plot the temperature and
+# exposure for "Harris" on 2016-04-05.
+
+# P5: Compare your solutions for P3 and P4 - what variables changed?
+
+# P6: What you would pick for the temperature extraction function and
+# parameters' names?
 
 # Writing extraction functions --------------------------------------------
 
-# Write your temperature extraction function here
+# P7: Fill in the blanks in the code below to write your temperature extraction
+# function.
 
-# Write your exposure extraction function here
+extract_temp <- function(site, datetime_start, datetime_end) {
+  datetime_start <- make_datetime(datetime_start)
+  datetime_end <- make_datetime(datetime_end)
+  temp_idx <- kefj_site == site & kefj_datetime >= datetime_start & kefj_datetime <= datetime_end
+  site_temp <- kefj_temperature[temp_idx]
+  return(site_temp)
+}
 
-# Write your datetime extraction function here
+# P8: Make a copy of your solution to P7, and edit it to create exposure and
+# datetime extraction functions.
 
-# Visualize Nuka Pass temperatures on 2018-07-01
+extract_exp <- function(site, datetime_start, datetime_end) {
+  datetime_start <- make_datetime(datetime_start)
+  datetime_end <- make_datetime(datetime_end)
+  exp_idx <- kefj_site == site & kefj_datetime >= datetime_start & kefj_datetime <= datetime_end
+  site_exp <- kefj_exposure[exp_idx]
+  return(site_exp)
+}
 
-# How does the visualization code above compare to what you wrote in PROG101?
+extract_times <- function(site, datetime_start, datetime_end) {
+  datetime_start <- get_datetime(datetime_start)
+  datetime_end <- get_datetime(datetime_end)
+  datetime_idx <- kefj_site == site & kefj_datetime >= datetime_start & kefj_datetime <= datetime_end
+  datetimes <- kefj_datetime[datetime_idx]
+  return(datetimes)
+}
 
+# P9: Export your annotated screenshot as a JPEG called "annotated_function.jpg"
+# and add it to your copy of the module repository. (It should be in the same
+# folder as this file.)
 
-# Functions within functions (optional) -----------------------------------
+# P10: Visualize Nuka Pass on July 1, 2018.
 
-# How would you parameterize the visualization code into its own function?
-# Specifically, what would you call that function and its parameters?
+Nuka_Pass_temps <- extract_temp("Nuka_Pass", "2018-07-01", "2018-07-02")
+Nuka_Pass_exps <- extract_exp("Nuka_Pass", "2018-07-01", "2018-07-02")
+Nuka_Pass_times <- extract_times("Nuka_Pass", "2018-07-01", "2018-07-02")
+plot_kefj(Nuka_Pass_times, Nuka_Pass_temps, Nuka_Pass_exps)
 
-# Write your wrapper function for plot_kefj(). Call it to compare the
-# visualizations for Nuka Pass on July 1, 2018 versus January 1, 2018.
+# P11: Save a copy of the Nuka Pass plot as "nuka_pass_2018-07-01.png" in this
+# repo
+
+# P12: Compare the code you wrote to create the plot in this module to the code
+# you wrote in PROG101. Qualitatively, how do they compare? Which one is easier
+# to read and why?
+
+# This code is better because its easier to read and more concise. That makes this
+# code easier to understand, debug, etc.
