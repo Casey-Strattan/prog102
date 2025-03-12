@@ -25,13 +25,39 @@ make_datetime <- function(day) {
 # P3: Make a copy of your code from P1 and edit it to plot the temperature and
 # exposure for "Aialik" on 2012-06-01
 
+site <- "Aialik"
+day_start <- as.POSIXct("2016-06-01 00:00:00", tz = "Etc/GMT+8")
+day_end <- as.POSIXct("2016-06-02 00:00:00", tz = "Etc/GMT+8")
+day_idx <- kefj_site == site &
+  kefj_datetime >= day_start &
+  kefj_datetime <= day_end
+day_datetime <- kefj_datetime[day_idx]
+day_temperature <- kefj_temperature[day_idx]
+day_exposure <- kefj_exposure[day_idx]
+plot_kefj(day_datetime, day_temperature, day_exposure)
+
 # P4: Make a copy of your code from P3 and edit it to plot the temperature and
 # exposure for "Harris" on 2016-04-05.
 
+site <- "Harris"
+day_start <- as.POSIXct("2016-04-05 00:00:00", tz = "Etc/GMT+8")
+day_end <- as.POSIXct("2016-04-06 00:00:00", tz = "Etc/GMT+8")
+day_idx <- kefj_site == site &
+  kefj_datetime >= day_start &
+  kefj_datetime <= day_end
+day_datetime <- kefj_datetime[day_idx]
+day_temperature <- kefj_temperature[day_idx]
+day_exposure <- kefj_exposure[day_idx]
+plot_kefj(day_datetime, day_temperature, day_exposure)
+
 # P5: Compare your solutions for P3 and P4 - what variables changed?
+
+#Site, day start, day end
 
 # P6: What you would pick for the temperature extraction function and
 # parameters' names?
+
+# Extract temp, site, datetime_start, datetime_end.
 
 # Writing extraction functions --------------------------------------------
 
@@ -71,9 +97,9 @@ extract_times <- function(site, datetime_start, datetime_end) {
 
 # P10: Visualize Nuka Pass on July 1, 2018.
 
-Nuka_Pass_temps <- extract_temp("Nuka_Pass", "2018-07-01", "2018-07-02")
-Nuka_Pass_exps <- extract_exp("Nuka_Pass", "2018-07-01", "2018-07-02")
-Nuka_Pass_times <- extract_times("Nuka_Pass", "2018-07-01", "2018-07-02")
+Nuka_Pass_temps <- extract_temp("Nuka_Pass", "2018-07-01", "2018-07-03")
+Nuka_Pass_exps <- extract_exp("Nuka_Pass", "2018-07-01", "2018-07-03")
+Nuka_Pass_times <- extract_times("Nuka_Pass", "2018-07-01", "2018-07-03")
 plot_kefj(Nuka_Pass_times, Nuka_Pass_temps, Nuka_Pass_exps)
 
 # P11: Save a copy of the Nuka Pass plot as "nuka_pass_2018-07-01.png" in this
